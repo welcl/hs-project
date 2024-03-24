@@ -1,11 +1,33 @@
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "allowImportingTsExtensions": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "openapi/*": ["openapi/*"]
     },
-    {
-      "path": "./tsconfig.app.json"
-    }
+    "experimentalDecorators": true,
+    "lib": ["esnext", "dom"],
+    "types": [
+      "vite-svg-loader",
+      "vite/client",
+      "element-plus/global",
+      "vite-plugin-svg-icons/client"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "svg-icons.d.ts"
   ]
 }
