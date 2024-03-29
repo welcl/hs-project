@@ -5,7 +5,7 @@
         <Meun />
       </el-aside>
       <el-container>
-        <el-header>Header</el-header>
+        <!-- <el-header>Header</el-header> -->
         <el-main>
           <RouterView />
         </el-main>

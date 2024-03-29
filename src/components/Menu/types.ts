@@ -3,4 +3,5 @@ export type MenuType = {
   route?: string;
   key: string;
   children?: MenuType[],
-};
+  active?: boolean,
+}; 

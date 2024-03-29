@@ -14,17 +14,17 @@ const router = createRouter({
     //   component: Layout
     // },
     {
-      path: '/study-assumptions',
+      path: '/report/study-assumptions',
       name: 'studyAssumptions',
       component: () => import('../views/report/StudyAssumptions.vue')
     },
     {
-      path: '/supply-strategy-assumptions',
+      path: '/report/supply-strategy-assumptions',
       name: 'SupplyStrategyAssumption',
       component: () => import('../views/report/SupplyStrategyAssumptions.vue')
     },
     {
-      path: '/assumptions-updates-scenarios',
+      path: '/report/assumptions-updates-scenarios',
       name: 'AssumptionsUpdatesScenarios',
       component: () => import('../views/report/AssumptionsUpdatesScenarios.vue')
     },
