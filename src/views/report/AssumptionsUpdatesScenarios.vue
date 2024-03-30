@@ -1,6 +1,6 @@
 <template>
-  <div class="assumptions-updates-scenarios">
-   <h1 class="box-title">Assumptions Report_Huasheng Pharmatech</h1>
+  <div class="assumptions-updates-scenarios-page">
+   <h1 class="module-title">Assumptions Report_Huasheng Pharmatech</h1>
    <el-form :model="form" label-width="auto" style="max-width: 600px">
     <el-form-item label="(Re)evaluation :">
       <el-input v-model="form.evaluation" />
@@ -37,17 +37,17 @@
       (NA if nothing changed)" width="200"  >
       <template #default="scope">
         <el-radio-group v-model="scope.row.reevaluation" class="ml-4">
-            <el-radio :value="true" size="large">Yes</el-radio>
-            <el-radio :value="false" size="large">No</el-radio>
-          </el-radio-group>
+          <el-radio :value="true" size="large">Yes</el-radio>
+          <el-radio :value="false" size="large">No</el-radio>
+        </el-radio-group>
       </template>
     </el-table-column>
   </el-table>
 
-  <h1 class="box-title">Please enter in table below the extra scenario(s) that must be investigated in this reevaluation</h1>
+  <h1 class="module-title">Please enter in table below the extra scenario(s) that must be investigated in this reevaluation</h1>
   <el-input v-model="form.validatedBy" type="textarea" placeholder="Please enter in table below the extra scenario(s) that must be investigated in this reevaluation" :autosize="{ minRows: 3, maxRows: 6 }" />
 
-  <h1 class="box-title">The table below needs to be filled in during the assumptions validation meeting together with Huasheng</h1>
+  <h1 class="module-title">The table below needs to be filled in during the assumptions validation meeting together with Huasheng</h1>
   <el-table :data="tableData2" border style="width: 100%">
     <template v-for="item of tableColumn2"  :key="item.prop" >
       <el-table-column v-if="item.prop === 'baseline'" :prop="item.prop" :label="item.prop" width="160" >
@@ -194,11 +194,12 @@ const deleteScenario = ()=>{
 
 </script>
 <style lang="scss" scoped>
-.assumptions-updates-scenarios{
+.assumptions-updates-scenarios-page{
   color:#242933;
-  .box-title{
+  .module-title{
     text-align: center;
     padding:16px;
+    font-size: 24px;
   }
 }
 </style>
