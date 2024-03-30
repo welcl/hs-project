@@ -38,7 +38,6 @@ export const  packageInfomationColumn = ref([
     label:'Fixed sourcing or production cost per batch',
     tips:'',
     type:'amount',
-
     min: 0,
     width:'170'
   },

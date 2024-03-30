@@ -1,7 +1,7 @@
 <template>
   <div class="assumptions-updates-scenarios-page">
    <h1 class="module-title">Assumptions Report_Huasheng Pharmatech</h1>
-   <el-form :model="form" label-width="auto" style="max-width: 600px">
+   <el-form :model="form" label-width="auto" style="max-width: 800px">
     <el-form-item label="(Re)evaluation :">
       <el-input v-model="form.evaluation" />
     </el-form-item>
