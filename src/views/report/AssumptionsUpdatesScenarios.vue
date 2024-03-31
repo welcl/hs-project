@@ -53,8 +53,8 @@
       <el-table-column v-if="item.prop === 'baseline'" :prop="item.prop" :label="item.prop" width="160" >
         <template #default="scope">
           
-            <el-button @click="addScenario">添加</el-button>
-            <el-button @click="deleteScenario">删除</el-button>
+            <el-button @click="addScenario">add</el-button>
+            <el-button @click="deleteScenario">delete</el-button>
           
         </template>
       </el-table-column>

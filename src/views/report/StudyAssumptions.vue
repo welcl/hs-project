@@ -12,8 +12,8 @@
         </div>
         <div v-if="formValue.hasLabelGroups" class="label-groups-content">
           <div style="margin-bottom:8px;">
-            <el-button  type="primary" size="small" @click="addLabelGroups">添加</el-button>
-            <el-button  size="small" @click="deleteLabelGroups">删除</el-button>
+            <el-button  type="primary" size="small" @click="addLabelGroups">add</el-button>
+            <el-button  size="small" @click="deleteLabelGroups">delete</el-button>
           </div>
           <el-table :data="formValue.labelGroups" border style="width: 100%">
             <el-table-column prop="labelgroup" label="Label group">
@@ -37,8 +37,8 @@
 
       <div class="package-infomation-table">
         <div style="margin-bottom:8px;">
-          <el-button  type="primary" size="small" @click="addPackageInfomation">添加</el-button>
-          <el-button  size="small" @click="deletePackageInfomation">删除</el-button>
+          <el-button  type="primary" size="small" @click="addPackageInfomation">add</el-button>
+          <el-button  size="small" @click="deletePackageInfomation">delete</el-button>
         </div>
         <el-table :data="formValue.packageInfomation" border >
           <el-table-column prop="packageInfomation" label="Packaging information" align="center">

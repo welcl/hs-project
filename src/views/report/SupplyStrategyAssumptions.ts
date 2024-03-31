@@ -5,7 +5,7 @@ export const  randomizationDetailsColumn = ref([
     prop:'arm',
     label:'Arm',
     tips:'',
-    type:'text',
+    type:'input',
     width:'120',
   },
   {
@@ -34,7 +34,7 @@ export const  patientVisitScheduleColumn = ref([
     prop:'treatmentVisit',
     label:'Treatment Visit / Cycle',
     tips:'',
-    type:'text',
+    type:'input',
     width:'120',
   },
   {
@@ -108,7 +108,110 @@ export const  screenFailureExpectedSummaryColumn = ref([
     prop:'expectedStudy',
     label:'Expected % patients reaching end of Study ',
     tips:'',
-    type:'text',
+    type:'input',
     width:'120'
   },
 ]);
+
+export const  dispensingPlanColumn = ref([
+  {
+    prop:'cycle',
+    label:'Cycle',
+    tips:'',
+    type:'text',
+    width:'120',
+  },
+  {
+    prop:'drugA',
+    label:'# of Drug A',
+    tips:'',
+    min:0,
+    type:'number',
+    width:'120'
+  },
+  {
+    prop:'drugB',
+    label:'# of Drug B',
+    tips:'',
+    min:0,
+    type:'number',
+    width:'120'
+  },
+  {
+    prop:'drugC',
+    label:'# of Drug C',
+    tips:'',
+    min:0,
+    type:'number',
+    width:'120'
+  },
+  {
+    prop:'drugD',
+    label:'# of Drug D',
+    tips:'',
+    min:0,
+    type:'number',
+    width:'120'
+  },
+]);
+
+export const  recruitmentInfoColumn = ref([
+  {
+    prop:'country',
+    label:'Country',
+    tips:'',
+    type:'textarea',
+    width:'120',
+  },
+  {
+    prop:'subjectQty',
+    label:'Subject Qty',
+    tips:'',
+    min:0,
+    type:'number',
+    width:'120'
+  },
+  {
+    prop:'siteQty',
+    label:'Site Qty',
+    tips:'',
+    min:0,
+    type:'number',
+    width:'120'
+  },
+  {
+    prop:'dateTime',
+    label:'Start Time and End Time',
+    tips:'',
+    type:'dateRange',
+    width:'280'
+  },
+]);
+
+export const  recruitmentSummaryItemColumn = ref([
+  {
+    prop:'country',
+    label:'Country',
+    tips:'',
+    type:'textarea',
+    width:'120',
+  },
+  {
+    prop:'subjectQty',
+    label:'Subject Qty',
+    tips:'',
+    min:0,
+    type:'number',
+    width:'120'
+  },
+  {
+    prop:'siteQty',
+    label:'Site Qty',
+    tips:'',
+    min:0,
+    type:'number',
+    width:'120'
+  },
+  
+]);
+
