@@ -195,7 +195,7 @@
         </el-table>
       </div>
 
-      <div class="recruitment-summary-table">
+      <div v-if="formValue.recruitment.recruitmentSummary?.length" class="recruitment-summary-table">
         <el-table :data="formValue.recruitment.recruitmentSummary" border>
           <template v-for="(column,index) of recruitmentSummaryColumn" :key="index">
             <el-table-column  :prop="column" :label="column" :min-width="120" >
@@ -322,6 +322,8 @@ const createRecruitmentSummary = async ()=>{
     text-align: center;
     padding:16px;
     font-size: 24px;
+    background: #f88b0891;
+    color:#fff;
   }
   .module-title-h3{
     text-align: center;

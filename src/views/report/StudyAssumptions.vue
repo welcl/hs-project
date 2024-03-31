@@ -186,7 +186,7 @@ import { reactive, ref } from 'vue';
 import { InfoFilled } from '@element-plus/icons-vue';
 import { packageInfomationColumn, PackageInfomationRowType,depotNetworksColumn,pastIPReleasesColumn,futureIPReleasesColumn } from './StudyAssumptions';
 import { cloneDeep } from 'lodash-es';
-const MAX_NUMS = 5;
+const MAX_NUMS = 10;
 const MIN_NUMS = 1;
 const packageInfomationItem = {
   kitType:'',
@@ -286,6 +286,8 @@ const deletePackageInfomation = async ()=>{
     text-align: center;
     padding:16px;
     font-size: 24px;
+    background:#2196F3;
+    color:#fff;
   }
   .module-title-h3{
     text-align: center;

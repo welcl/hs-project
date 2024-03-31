@@ -1,7 +1,7 @@
 <template>
    <div class="common-layout">
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="245px">
         <Meun />
       </el-aside>
       <el-container>
@@ -20,6 +20,6 @@ import { RouterView } from 'vue-router';
 <style lang="scss" scoped>
 .common-layout .el-container{
   width: 100vw;
-    height: 100vh;
+  height: 100vh;
 }
 </style>
