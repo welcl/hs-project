@@ -3,14 +3,18 @@
     <h1 class="module-title">Study Assumptions </h1>
     <el-form :model="formValue" label-width="auto" style="max-width: 800px">
       <el-form-item label="Randomization level:">
-        <el-input v-model="formValue.studyAssumptions" />
+        <el-select v-model="formValue.studyAssumptions" >
+          <el-option label="Study" value="Study" />
+          <el-option label="Country" value="Country" />
+          <el-option label="Site" value="Site" />
+        </el-select>
       </el-form-item>
       
       <el-form-item label="Please indicate the enrollment stopping criterion:">
         <el-date-picker
           v-model="formValue.stoppingCriterion"
           type="date"
-          placeholder="请选择"
+          placeholder="Select"
           clearable
         />
       </el-form-item>
@@ -24,8 +28,8 @@
     <h3 class="module-title-h3">* A hard trial stopping date means that the trial will end at a specific date, even if patients have not finished their treatment</h3>
     <div  class="supply-strategy-assumptions-content">
       <div style="margin-bottom:8px;">
-        <el-button  type="primary" size="small" @click="addRandomization">add</el-button>
-        <el-button  size="small" @click="deleteRandomization">delete</el-button>
+        <el-button  type="primary" size="small" @click="addRandomization">Add</el-button>
+        <el-button  size="small" @click="deleteRandomization">Delete</el-button>
       </div>
       <el-table :data="formValue.randomizationDetails" border show-summary >
         <el-table-column prop="randomizationDetails" label="Randomization Details : " align="center">
@@ -52,7 +56,7 @@
       </el-table>
     </div>
 
-    <h1 class="module-title">Patient Visit schedule </h1>
+    <h1 class="module-title">Patient Visit Schedule </h1>
     <div class="patient-visit-schedule-content">
       <template v-for="(item,index) of formValue.patientVisitSchedule" :key="index">
         <el-table :data="item" border class="patient-visit-schedule-content-table" >
@@ -94,10 +98,7 @@
         <div class="desc">What is the targeted indication? Please describe into details </div>
         <el-input type="textarea" v-model="formValue.screenFailure.describeDetails" />
       </div>
-      <div class="screen-failure-item-layout">
-        <div class="desc">Do you have a drop-out rate assumption that is global or at country/region specific? </div>
-        <el-input type="textarea" v-model="formValue.screenFailure.dropOutCountry" />
-      </div>
+     
       <el-table :data="formValue.screenFailure.expectedSummary" border >
         <template v-for="(column,index) of screenFailureExpectedSummaryColumn" :key="index">
           <el-table-column  :prop="column.prop" :label="column.label" :min-width="column.width ?? 120" >
@@ -119,10 +120,15 @@
           </el-table-column>
         </template>
       </el-table>
+
+       <div v-if="!formValue.screenFailure.dropOutArm" class="screen-failure-item-layout">
+        <div class="desc">Please describe the drop out rate per different treatment arm into details.</div>
+        <el-input type="textarea" v-model="formValue.screenFailure.dropOutCountry" />
+      </div>
     </div>
 
     <div class="dispensing-plan">
-      <h1 class="module-title">Dispensing plan</h1>
+      <h1 class="module-title">Dispensing Plan</h1>
       <h3 class="module-title-h3">Note: please complete # of each kit type for each dispensing visit for each treatment arm</h3>
       <div class="dispensing-plan-content">
         <template v-for="(item,index) of formValue.dispensingPlan" :key="index">
@@ -160,9 +166,9 @@
       <h3 class="module-title-h3">Note: the data to be enterred is NOT accumulated data by each month, it should be the projected recruitment or site initiation data on a monthly basis.</h3>
       <div class="recruitment-info-table">
         <div style="margin-bottom:8px;">
-          <el-button  type="primary" size="small" @click="addRecruitmentInfo">add</el-button>
-          <el-button  size="small" @click="deleteRecruitmentInfo">delete</el-button>
-          <el-button  size="small" @click="createRecruitmentSummary">create table</el-button>
+          <el-button  type="primary" size="small" @click="addRecruitmentInfo">Add</el-button>
+          <el-button  size="small" @click="deleteRecruitmentInfo">Delete</el-button>
+          <el-button  size="small" @click="createRecruitmentSummary">Create Table</el-button>
         </div>
         <el-table :data="formValue.recruitment.recruitmentInfo" border show-summary >
           <template v-for="(column,index) of recruitmentInfoColumn" :key="index">
@@ -231,7 +237,7 @@ const dispensingPlanItem = {cycle:'',drugA:'',drugB:'',drugC:'',drugD:''}
 const dispensingPlanItemArray :any = [];
 for(let i = 0; i < LOOP_NUMS; i++){
   const itemVal = cloneDeep(dispensingPlanItem);
-  itemVal.cycle = 'cycle'+ (i+1)
+  itemVal.cycle = 'Cycle'+ (i+1)
   dispensingPlanItemArray.push(itemVal);
 }
 const recruitmentInfoItem = {country:'',subjectQty: '',siteQty:'',dateTime:[null,null]}
@@ -266,7 +272,7 @@ const MIN_NUMS = 1;
 
 const addRandomization = async ()=>{
   if(formValue?.randomizationDetails?.length >= MAX_NUMS){
-    return ElMessage.warning(`最多添加${MAX_NUMS}个label group`);
+    return ElMessage.warning(`Add up to${MAX_NUMS}`);
   } 
   formValue.randomizationDetails.push(cloneDeep(randomizationDetailsItem))
   formValue.patientVisitSchedule.push(cloneDeep(patientVisitScheduleItemArray));
@@ -275,7 +281,7 @@ const addRandomization = async ()=>{
 
 const deleteRandomization = async ()=>{
   if(formValue?.randomizationDetails?.length <= MIN_NUMS){
-    return ElMessage.warning(`最少存在${MIN_NUMS}个label group`);
+    return ElMessage.warning(`At least ${MIN_NUMS} exists`);
   } 
   formValue.randomizationDetails.pop();
   formValue.patientVisitSchedule.pop();
@@ -285,14 +291,14 @@ const deleteRandomization = async ()=>{
 
 const addRecruitmentInfo = async ()=>{
   if(formValue?.recruitment.recruitmentInfo?.length >= MAX_NUMS){
-    return ElMessage.warning(`最多添加${MAX_NUMS}个`);
+    return ElMessage.warning(`Add up to ${MAX_NUMS} `);
   } 
   formValue.recruitment.recruitmentInfo.push(cloneDeep(recruitmentInfoItem));
 }
 
 const deleteRecruitmentInfo = async ()=>{
   if(formValue?.recruitment?.recruitmentInfo?.length <= MIN_NUMS){
-    return ElMessage.warning(`最少存在${MIN_NUMS}个`);
+    return ElMessage.warning(`At least ${MIN_NUMS} exists`);
   } 
   formValue.recruitment.recruitmentInfo.pop();
 }

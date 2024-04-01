@@ -3,7 +3,7 @@ import { ref } from "vue";
 export const  packageInfomationColumn = ref([
   {
     prop:'kitType',
-    label:'Kit type',
+    label:'Kit Type',
     tips:'',
     type:'text',
     width:'120',
@@ -11,7 +11,7 @@ export const  packageInfomationColumn = ref([
   },
   {
     prop:'labelGroup',
-    label:'Label group (NA)',
+    label:'Label Group (NA)',
     tips:'',
     type:'text',
     width:'120'
@@ -19,14 +19,14 @@ export const  packageInfomationColumn = ref([
   
   {
     prop:'temperatureType',
-    label:'Temperature type',
+    label:'Temperature Type',
     tips:'Temperature type，like 2-8°C or Ambient?',
     type:'text',
     width:'120'
   },
   {
     prop:'remainingShelfLife',
-    label:'Remaining shelf life',
+    label:'Remaining Shelf Life',
     tips:'Remaining shelf life to be taken into account for future productions? (if no expiry dates available yet)*',
     type:'number',
     min: 0,
@@ -67,7 +67,7 @@ export const  packageInfomationColumn = ref([
   },
   {
     prop:'commercialValue',
-    label:'Commercial value',
+    label:'Commercial Value',
     tips:'Commercial value (on which VAT/Custom fees will be applied)*if different per country, (N/A)',
     type:'amount',
     min: 0,
@@ -75,7 +75,7 @@ export const  packageInfomationColumn = ref([
   },
   {
     prop:'leadTime',
-    label:'Lead time',
+    label:'Lead Time',
     tips:'Lead time from order to Quality release (sourcing, packaging, labelling, release timelines)',
     type:'number',
     min: 0,
@@ -84,7 +84,7 @@ export const  packageInfomationColumn = ref([
   },
   {
     prop:'localSourcing',
-    label:'Local sourcing',
+    label:'Local Sourcing',
     tips:'Local sourcing? If yes, please specify the country. (N/A)',
     type:'text',
     min: 0,
@@ -110,14 +110,14 @@ export  type PackageInfomationRowType ={
 export const  depotNetworksColumn = ref([
   {
     prop:'centraldepot',
-    label:'Central depot',
+    label:'Central Depot',
     tips:'',
-    type:'',
+    type:'text',
     width:'120',
   },
   {
     prop:'localDepot',
-    label:'Local depot',
+    label:'Local Depot',
     tips:'',
     type:'text',
     width:'120',
@@ -149,21 +149,21 @@ export const  depotNetworksColumn = ref([
 
   {
     prop:'siteSetUp',
-    label:'Site seedings set up ',
+    label:'Site Seedings Set Up ',
     tips:'',
     type:'text',
     width:'120'
   },
   {
     prop:'shipment',
-    label:'Cost per depot shipment (NA)',
+    label:'Cost Per Depot Shipment (NA)',
     tips:'',
     type:'amount',
     width:'170'
   },
   {
-    prop:'costPerChina',
-    label:'Cost per site shipment in China',
+    prop:'costPer',
+    label:'Cost Per Site Shipment',
     tips:'',
     type:'amount',
     width:'170'
@@ -173,21 +173,21 @@ export const  depotNetworksColumn = ref([
 export const  pastIPReleasesColumn = ref([
   {
     prop:'releaseDate',
-    label:'Release date',
+    label:'Release Date',
     tips:'',
     type:'date',
     width:'210',
   },
   {
     prop:'packageType',
-    label:'Package type',
+    label:'Package Type',
     tips:'',
     type:'text',
     width:'120',
   },
   {
     prop:'labelGroup',
-    label:'Label group (NA)',
+    label:'Label Group (NA)',
     tips:'',
     type:'text',
     width:'120'
@@ -195,17 +195,17 @@ export const  pastIPReleasesColumn = ref([
 
   {
     prop:'confirmedExpiryDate',
-    label:'Confirmed expiry date ',
+    label:'Confirmed Expiry Date ',
     tips:'',
     type:'date',
     width:'210'
   },
   {
     prop:'lotNumber',
-    label:'Lot number',
+    label:'Lot Number',
     tips:'',
      min:0,
-    type:'number',
+    type:'text',
     width:'150'
   },
 
@@ -222,38 +222,38 @@ export const  pastIPReleasesColumn = ref([
 export const  futureIPReleasesColumn = ref([
   {
     prop:'releaseDate',
-    label:'Release date',
+    label:'Release Date',
     tips:'',
     type:'date',
     width:'210',
   },
   {
     prop:'packageType',
-    label:'Package type',
+    label:'Package Type',
     tips:'',
     type:'text',
     width:'120',
   },
   {
     prop:'labelGroup',
-    label:'Label group (NA)',
+    label:'Label Group (NA)',
     tips:'',
     type:'text',
     width:'120'
   },
   {
     prop:'expectedExpiryDate',
-    label:'Expected expiry date',
+    label:'Expected Expiry Date',
     tips:'Expected expiry date(if not given, remaining shelf life defined in "Packaging information" tab will be used)',
     type:'date',
     width:'210'
   },
   {
     prop:'lotNumber',
-    label:'Lot number',
+    label:'Lot Number',
     tips:'',
      min:0,
-    type:'number',
+    type:'text',
     width:'150'
   },
   {

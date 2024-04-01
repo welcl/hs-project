@@ -10,7 +10,7 @@ export const  randomizationDetailsColumn = ref([
   },
   {
     prop:'randomization',
-    label:'Ratio of Randomization',
+    label:'Ratio Of Randomization',
     tips:'',
     min:0,
     type:'number',
@@ -98,7 +98,7 @@ export const  screenFailureExpectedSummaryColumn = ref([
   },
   {
     prop:'expectedAverage',
-    label:'Expected average # cycles',
+    label:'Expected Average # cycles',
     tips:'',
     min:0,
     type:'number',

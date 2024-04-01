@@ -6,28 +6,24 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/study-assumptions'
+      redirect: '/report/AssumptionsUpdatesScenarios'
     },
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: Layout
-    // },
     {
-      path: '/report/study-assumptions',
+      path: '/report/AssumptionsUpdatesScenarios',
+      name: 'AssumptionsUpdatesScenarios',
+      component: () => import('../views/report/AssumptionsUpdatesScenarios.vue')
+    },
+    {
+      path: '/report/StudyAssumptions',
       name: 'studyAssumptions',
       component: () => import('../views/report/StudyAssumptions.vue')
     },
     {
-      path: '/report/supply-strategy-assumptions',
+      path: '/report/SupplyStrategyAssumptions',
       name: 'SupplyStrategyAssumption',
       component: () => import('../views/report/SupplyStrategyAssumptions.vue')
     },
-    {
-      path: '/report/assumptions-updates-scenarios',
-      name: 'AssumptionsUpdatesScenarios',
-      component: () => import('../views/report/AssumptionsUpdatesScenarios.vue')
-    },
+    
   ]
 })
 

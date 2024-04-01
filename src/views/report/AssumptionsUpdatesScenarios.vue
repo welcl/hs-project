@@ -3,13 +3,16 @@
    <h1 class="module-title">Assumptions Report_Huasheng Pharmatech</h1>
    <el-form :model="form" label-width="auto" style="max-width: 800px;padding:12px 0px">
     <el-form-item label="(Re)evaluation :">
-      <el-input v-model="form.evaluation" />
+      <el-select v-model="form.evaluation" >
+        <el-option label="Initial Report" value="Initial Report" />
+        <el-option label="Reevaluation Report" value="Reevaluation Report" />
+       </el-select>
     </el-form-item>
     <el-form-item label="Date of assumptions validation:">
       <el-date-picker
         v-model="form.assumptionsValidationDate"
         type="date"
-        placeholder="请选择"
+        placeholder="Select"
         clearable
       />
     </el-form-item>
@@ -17,16 +20,20 @@
       <el-date-picker
         v-model="form.extractUsedDate"
         type="date"
-        placeholder="请选择"
+        placeholder="Select"
         clearable
       />
     </el-form-item>
     <el-form-item label="Validated by :">
-      <el-input v-model="form.validatedBy" placeholder="请输入" />
+      <el-select v-model="form.validatedByType" >
+        <el-option label="Clinschain's PM" value="Clinschain's PM" />
+        <el-option label="Huasheng's PM" value="Huasheng's PM" />
+       </el-select>
+       <el-input v-model="form.validatedBy" placeholder="Please input" />
     </el-form-item>
 
     <el-form-item label="What is the main goal of this (re)evaluation ?">
-      <el-input v-model="form.validatedBy" type="textarea" placeholder="1. what should be the best overage for this clinical supply strategy assumption? 2. what should be the best site shipment frequency for this China only trial?" :autosize="{ minRows: 3, maxRows: 6 }" />
+      <el-input v-model="form.goalEvaluation" type="textarea" placeholder="1. what should be the best overage for this clinical supply strategy assumption? 2. what should be the best site shipment frequency for this China only trial?" :autosize="{ minRows: 3, maxRows: 6 }" />
     </el-form-item>
     </el-form>
 
@@ -36,28 +43,25 @@
       <el-table-column prop="reevaluation" label="New assumptions since last reevaluation 
         (NA if nothing changed)" width="200"  >
         <template #default="scope">
-          <el-radio-group v-model="scope.row.reevaluation" class="ml-4">
-            <el-radio :value="true" size="large">Yes</el-radio>
-            <el-radio :value="false" size="large">No</el-radio>
-          </el-radio-group>
+          <el-switch v-model="scope.row.reevaluation" />
         </template>
       </el-table-column>
     </el-table>
 
     <h3 class="module-title-h3">Please enter in table below the extra scenario(s) that must be investigated in this reevaluation</h3>
-    <el-input v-model="form.validatedBy" type="textarea" placeholder="Please enter in table below the extra scenario(s) that must be investigated in this reevaluation" :autosize="{ minRows: 3, maxRows: 6 }" />
+    <el-input v-model="form.investigatedReevaluation" type="textarea" placeholder="Please enter in table below the extra scenario(s) that must be investigated in this reevaluation" :autosize="{ minRows: 3, maxRows: 6 }" />
 
     <el-table :data="tableData2" border style="width: 100%">
       <template v-for="(item, index) of tableColumn2"  :key="item.prop" >
         <el-table-column v-if="item.prop === 'baseline'" :prop="item.prop" :label="item.prop" width="200" >
           <template #default>
-              <el-button @click="addScenario">add</el-button>
-              <el-button @click="deleteScenario">delete</el-button>
+              <el-button @click="addScenario">Add</el-button>
+              <el-button @click="deleteScenario">Delete</el-button>
           </template>
         </el-table-column>
         <el-table-column v-else :prop="item.prop" :label="item.prop"  >
           <template #default="scope">
-            <el-input v-model="scope.row.scenarioVal[index+1]" type="textarea" placeholder="请输入" :autosize="{ minRows: 3, maxRows: 6 }" />
+            <el-input v-model="scope.row.scenarioVal[index+1]" type="textarea" placeholder="Please input" :autosize="{ minRows: 3, maxRows: 6 }" />
           </template>
         </el-table-column>
       </template>
@@ -80,10 +84,7 @@
                   </el-tooltip>
                 </template>
                 <template #default="scope">
-                  <el-radio-group v-if="column.type === 'radio'" v-model="scope.row[column.prop]" class="ml-4">
-                    <el-radio :value="true" size="large">Yes</el-radio>
-                    <el-radio :value="false" size="large">No</el-radio>
-                  </el-radio-group>
+                  <el-switch v-if="column.type === 'radio'" v-model="scope.row[column.prop]" />
                 </template>
               </el-table-column>
           </template>
@@ -107,69 +108,69 @@ interface SpanMethodProps {
 const MAX_NUMS = 10;
 const MIN_NUMS = 1;
 const tableColumn2 = ref([{
-  prop:'baseline',
+  prop:'Baseline',
 },
 {
-  prop:'scenario 1',
+  prop:'Scenario 1',
 }])
 
 const tableData1 = ref([{
-  setups:'Recruitment setup',
-  linkTabs:'Recruitment assumptions',
+  setups:'Study Assumptions',
+  linkTabs:'Recruitment Assumptions',
   reevaluation:true,
-  rowspan: 1
+  rowspan: 6
 },
 {
-  setups:'Treatment setup',
+  setups:'Study Assumptions',
   linkTabs:'Randomization',
   reevaluation:true,
-  rowspan: 5
+  rowspan: 0
 },
 {
-  setups:'Treatment setup',
-  linkTabs:'Patient factors (weight, BSA, age..)',
+  setups:'Study Assumptions',
+  linkTabs:'Patient Factors (weight, BSA, age..)',
   reevaluation:true,
   rowspan: 0
 },
 {
-  setups:'Treatment setup',
-  linkTabs:'Treatment visits',
+  setups:'Study Assumptions',
+  linkTabs:'Treatment Visits',
   reevaluation:true,
   rowspan: 0
 },
 {
-  setups:'Treatment setup',
+  setups:'Study Assumptions',
   linkTabs:'Dispensing',
   reevaluation:true,
   rowspan: 0
 },
 {
-  setups:'Treatment setup',
+  setups:'Study Assumptions',
   linkTabs:'Patient evolution probabilities (screening faillure, drop-out & titrations)',
   reevaluation:true,
   rowspan: 0
 },
 
 {
-  setups:'Network setup',
-  linkTabs:'Packaging information',
+  setups:'Supply Strategy Assumptions',
+  linkTabs:'Packaging Information',
   reevaluation:true,
-  rowspan: 2
+  rowspan: 4
 },
 {
-  setups:'Network setup',
-  linkTabs:'Network routes',
+  setups:'Supply Strategy Assumptions',
+  linkTabs:'Network Routes',
   reevaluation:true,
   rowspan: 0
 },
 {
-  setups:'Production setup',
+  setups:'Supply Strategy Assumptions',
   linkTabs:'Productions',
   reevaluation:true,
-  rowspan: 2
+  rowspan: 0
 },
 {
-  setups:'Production setup',
+  setups:'Supply Strategy Assumptions',
   linkTabs:'Desired depot shipments cover period',
   reevaluation:true,
   rowspan: 0
@@ -177,7 +178,7 @@ const tableData1 = ref([{
 ]);
 
 const tableData2 = ref([{
-  baseline:'Recruitment setup',
+  baseline:'Recruitment Setup',
   scenarioVal:[],
   },
 ]);
@@ -214,6 +215,9 @@ const form = reactive({
   assumptionsValidationDate: '',
   extractUsedDate: '',
   validatedBy: '',
+  goalEvaluation: '',
+  validatedByType: '',
+  investigatedReevaluation:'',
   requiredReevaluationScenario:'',
   tableData1:tableData1.value,
   tableData2:tableData2.value,
@@ -240,7 +244,7 @@ const objectSpanMethod = ({
 
 const addScenario = ()=>{
   if(tableColumn2.value?.length >=MAX_NUMS){
-    return ElMessage.warning(`最多添加${MAX_NUMS}个场景`);
+    return ElMessage.warning(`Add up to${MAX_NUMS}`);
   }
   tableColumn2.value.push({prop:`scenario ${tableColumn2.value.length}`})
   form.analysisResult.push(cloneDeep(analysisResult.value));
@@ -248,7 +252,7 @@ const addScenario = ()=>{
 
 const deleteScenario = ()=>{
   if(tableColumn2.value?.length ===2){
-    return ElMessage.warning(`最少存在${MIN_NUMS}个场景`);
+    return ElMessage.warning(`At least ${MIN_NUMS} exists`);
   }
   tableColumn2.value.pop();
   form.analysisResult.pop();

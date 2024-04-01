@@ -3,7 +3,7 @@ import { ref } from "vue";
 export const  analysisResultColumn = ref([
   {
     prop:'executiveSummary',
-    label:'Executive summary',
+    label:'Executive Summary',
     tips:'',
     type:'radio',
     width:'140',
@@ -18,21 +18,21 @@ export const  analysisResultColumn = ref([
   
   {
     prop:'supplyPlan',
-    label:'Supply plan (Production plan optimization)',
+    label:'Supply Plan (Production plan optimization)',
     tips:'Temperature type，like 2-8°C or Ambient?',
     type:'radio',
     width:'140'
   },
   {
     prop:'depotShipmentsPlan',
-    label:'Depot shipments plan',
+    label:'Depot Shipments Plan',
     tips:'Depot shipments plan(not standardly part of a scenario) ',
     type:'radio',
     width:'140'
   },
   {
     prop:'monthlyKitDispensing',
-    label:'Monthly kit dispensing',
+    label:'Monthly Kit Dispensing',
     tips:' ',
     type:'radio',
     width:'140'
@@ -46,7 +46,7 @@ export const  analysisResultColumn = ref([
   },
   {
     prop:'riskAtSites',
-    label:'Risk at sites',
+    label:'Risk At Sites',
     tips:'',
     type:'radio',
     width:'140'
