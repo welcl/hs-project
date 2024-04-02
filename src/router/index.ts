@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Layout from '@/components/Layout.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,17 +8,17 @@ const router = createRouter({
       redirect: '/report/AssumptionsUpdatesScenarios'
     },
     {
-      path: '/report/AssumptionsUpdatesScenarios',
+      path: '/report/assumptions-updates-scenarios',
       name: 'AssumptionsUpdatesScenarios',
       component: () => import('../views/report/AssumptionsUpdatesScenarios.vue')
     },
     {
-      path: '/report/StudyAssumptions',
+      path: '/report/study-assumptions',
       name: 'studyAssumptions',
       component: () => import('../views/report/StudyAssumptions.vue')
     },
     {
-      path: '/report/SupplyStrategyAssumptions',
+      path: '/report/supply-strategy-assumptions',
       name: 'SupplyStrategyAssumption',
       component: () => import('../views/report/SupplyStrategyAssumptions.vue')
     },

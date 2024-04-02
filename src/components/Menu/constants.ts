@@ -6,18 +6,18 @@ export const  MenuList: MenuType[] = [
     key: '1',
     children: [
       {
-        title: 'assumptions-updates-scenarios',
-        route: '/report/AssumptionsUpdatesScenarios',
+        title: 'AssumptionsUpdatesScenarios',
+        route: '/report/assumptions-updates-scenarios',
         key: '1-1'
       },
       {
-        title: 'supply-strategy-assumptions',
-        route: '/report/SupplyStrategyAssumptions',
+        title: 'SupplyStrategyAssumptions',
+        route: '/report/supply-strategy-assumptions',
         key: '1-2'
       },
       {
-        title: 'study-assumptions',
-        route: '/report/StudyAssumptions',
+        title: 'StudyAssumptions',
+        route: '/report/study-assumptions',
         key: '1-3'
       }
     ]
