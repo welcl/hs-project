@@ -166,9 +166,28 @@
       <h3 class="module-title-h3">Note: the data to be enterred is NOT accumulated data by each month, it should be the projected recruitment or site initiation data on a monthly basis.</h3>
       <div class="recruitment-info-table">
         <div style="margin-bottom:8px;">
+          <el-upload
+            v-model:file-list="fileList"
+            class="upload-demo"
+            action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+            multiple
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :limit="1"
+            :on-exceed="handleExceed"
+          >
+            <el-button type="primary">Import</el-button>
+            <template #tip>
+              <div class="el-upload__tip">
+                Please download the recruitment projection template and complete the recruitment forecast and afterwards upload the file
+              </div>
+            </template>
+          </el-upload>
           <el-button  type="primary" size="small" @click="addRecruitmentInfo">Add</el-button>
           <el-button  size="small" @click="deleteRecruitmentInfo">Delete</el-button>
           <el-button  size="small" @click="createRecruitmentSummary">Create Table</el-button>
+          
         </div>
         <el-table :data="formValue.recruitment.recruitmentInfo" border show-summary >
           <template v-for="(column,index) of recruitmentInfoColumn" :key="index">
@@ -220,11 +239,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { dayjs, ElMessage } from 'element-plus';
+import { dayjs, ElMessage, ElMessageBox } from 'element-plus';
 import {  cloneDeep,groupBy } from 'lodash-es';
 import { reactive, ref } from 'vue';
 import { randomizationDetailsColumn,patientVisitScheduleColumn,screenFailureExpectedSummaryColumn,
   dispensingPlanColumn, recruitmentInfoColumn,recruitmentSummaryItemColumn } from './SupplyStrategyAssumptions';
+import type { UploadProps, UploadUserFile } from 'element-plus'
 
 const LOOP_NUMS = 10;
 const randomizationDetailsItem = {arm:'',countries:'',randomization:'',pts:''};
@@ -278,6 +298,40 @@ const addRandomization = async ()=>{
   formValue.patientVisitSchedule.push(cloneDeep(patientVisitScheduleItemArray));
   formValue.dispensingPlan.push(cloneDeep(dispensingPlanItemArray));
 }
+
+const fileList = ref<UploadUserFile[]>([]);
+  const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
+  console.log(file, uploadFiles)
+}
+
+const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
+  console.log(uploadFile)
+}
+
+const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
+  ElMessage.warning(
+    `The limit is 1, you selected ${files.length} files this time, add up to ${
+      files.length + uploadFiles.length
+    } totally`
+  )
+}
+
+const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
+  return ElMessageBox.confirm(
+    `Cancel the transfer of ${uploadFile.name} ?`
+  ).then(
+    () => true,
+    () => false
+  )
+}
+
+const importRecruitmentInfo = async ()=>{
+  if(formValue?.recruitment.recruitmentInfo?.length >= MAX_NUMS){
+    return ElMessage.warning(`Add up to ${MAX_NUMS} `);
+  } 
+  formValue.recruitment.recruitmentInfo.push(cloneDeep(recruitmentInfoItem));
+}
+
 
 const deleteRandomization = async ()=>{
   if(formValue?.randomizationDetails?.length <= MIN_NUMS){
