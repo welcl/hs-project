@@ -1,5 +1,6 @@
 <template>
   <div class="supply-strategy-assumptions">
+  
     <h1 class="module-title">Study Assumptions </h1>
     <el-form :model="formValue" label-width="auto" style="max-width: 800px">
       <el-form-item label="Randomization level:">
@@ -31,7 +32,7 @@
         <el-button  type="primary" size="small" @click="addRandomization">Add</el-button>
         <el-button  size="small" @click="deleteRandomization">Delete</el-button>
       </div>
-      <el-table :data="formValue.randomizationDetails" border show-summary >
+      <el-table id="data-table1"  :data="formValue.randomizationDetails" border show-summary >
         <el-table-column prop="randomizationDetails" label="Randomization Details : " align="center">
           <template v-for="(column,index) of randomizationDetailsColumn" :key="index">
             <el-table-column  :prop="column.prop" :label="column.label" :sortable="column.sortable" :min-width="column.width ?? 120" >
@@ -47,6 +48,7 @@
                 </el-tooltip>
               </template>
               <template #default="scope">
+                <span style="display: none">{{ scope.row[column.prop] }}</span>
                 <el-input v-if="column.type === 'input'" type="text" v-model="scope.row[column.prop]" />
                 <el-input-number v-else-if="column.type === 'number'" type="number" :min="column.min" :max="column.max" :controls="false" :precision="column.precision" v-model="scope.row[column.prop]" />  
               </template>
@@ -59,7 +61,7 @@
     <h1 class="module-title">Patient Visit Schedule </h1>
     <div class="patient-visit-schedule-content">
       <template v-for="(item,index) of formValue.patientVisitSchedule" :key="index">
-        <el-table :data="item" border class="patient-visit-schedule-content-table" >
+        <el-table id="data-table2" :data="item" border class="patient-visit-schedule-content-table" >
           <el-table-column prop="descriptionOfArm" :label="'Description of Arm '+ formValue.randomizationDetails![index]?.arm + ' treatment plan and IMP dispensing plan'" align="center">
             <template v-for="(column,index) of patientVisitScheduleColumn" :key="index">
               <el-table-column  :prop="column.prop" :label="column.label"  :min-width="column.width ?? 120" >
@@ -75,8 +77,9 @@
                 </el-tooltip>
               </template>
               <template #default="scope">
-              <el-input v-if="column.type === 'input'" type="text" v-model="scope.row[column.prop]" />
-              <el-input-number v-else-if="column.type === 'number'" type="number" :min="column.min" :max="column.max" :controls="false" :precision="column.precision" v-model="scope.row[column.prop]" />  
+                <span style="display: none">{{ scope.row[column.prop] }}</span>
+                <el-input v-if="column.type === 'input'" type="text" v-model="scope.row[column.prop]" />
+                <el-input-number v-else-if="column.type === 'number'" type="number" :min="column.min" :max="column.max" :controls="false" :precision="column.precision" v-model="scope.row[column.prop]" />  
               </template>
             </el-table-column>
             </template>
@@ -99,7 +102,7 @@
         <el-input type="textarea" v-model="formValue.screenFailure.describeDetails" />
       </div>
      
-      <el-table :data="formValue.screenFailure.expectedSummary" border >
+      <el-table  :data="formValue.screenFailure.expectedSummary" border >
         <template v-for="(column,index) of screenFailureExpectedSummaryColumn" :key="index">
           <el-table-column  :prop="column.prop" :label="column.label" :min-width="column.width ?? 120" >
             <template #header>
@@ -114,6 +117,7 @@
               </el-tooltip>
             </template>
             <template #default="scope">
+              <span style="display: none">{{ scope.row[column.prop] }}</span>
               <el-input v-if="column.type === 'input'" type="text" v-model="scope.row[column.prop]" />
               <el-input-number v-else-if="column.type === 'number'" type="number" :min="column.min" :max="column.max" :controls="false" :precision="column.precision" v-model="scope.row[column.prop]" />  
             </template>
@@ -132,7 +136,7 @@
       <h3 class="module-title-h3">Note: please complete # of each kit type for each dispensing visit for each treatment arm</h3>
       <div class="dispensing-plan-content">
         <template v-for="(item,index) of formValue.dispensingPlan" :key="index">
-          <el-table :data="item" border show-summary  class="dispensing-plan-content-table">
+          <el-table id="data-table3" :data="item" border show-summary  class="dispensing-plan-content-table">
               <el-table-column prop="armProp" :label="'Arm '+ formValue.randomizationDetails![index]?.arm" align="center">
                 <template v-for="(column,index) of dispensingPlanColumn" :key="index">
                   <el-table-column  :prop="column.prop" :label="column.label" :min-width="column.width ?? 120" >
@@ -148,6 +152,7 @@
                       </el-tooltip>
                     </template>
                     <template #default="scope">
+                      <span style="display: none">{{ scope.row[column.prop] }}</span>
                       <el-input v-if="column.type === 'input'" type="text" v-model="scope.row[column.prop]" />
                       <el-input-number v-else-if="column.type === 'number'" type="number" :min="column.min" :max="column.max" :controls="false" :precision="column.precision" v-model="scope.row[column.prop]" />  
                       <div v-else>{{ scope.row[column.prop] }}</div>
@@ -189,7 +194,7 @@
           <el-button  size="small" @click="createRecruitmentSummary">Create Table</el-button>
           
         </div>
-        <el-table :data="formValue.recruitment.recruitmentInfo" border show-summary >
+        <el-table  id="data-table4" :data="formValue.recruitment.recruitmentInfo" border show-summary >
           <template v-for="(column,index) of recruitmentInfoColumn" :key="index">
             <el-table-column  :prop="column.prop" :label="column.label" :min-width="column.width ?? 120" >
               <template #header>
@@ -204,6 +209,7 @@
                 </el-tooltip>
               </template>
               <template #default="scope">
+                <span style="display: none">{{ scope.row[column.prop] }}</span>
                 <el-input v-if="column.type === 'input'" type="text" v-model="scope.row[column.prop]" />
                 <el-input v-if="column.type === 'textarea'" type="textarea" v-model="scope.row[column.prop]" :autosize="{ minRows: 1, maxRows: 3 }" />
                 <el-input-number v-else-if="column.type === 'number'" type="number" :min="column.min" :max="column.max" :controls="false" :precision="column.precision" v-model="scope.row[column.prop]" />
@@ -221,7 +227,7 @@
       </div>
 
       <div v-if="formValue.recruitment.recruitmentSummary?.length" class="recruitment-summary-table">
-        <el-table :data="formValue.recruitment.recruitmentSummary" border>
+        <el-table id="data-table5" :data="formValue.recruitment.recruitmentSummary" border>
           <template v-for="(column,index) of recruitmentSummaryColumn" :key="index">
             <el-table-column  :prop="column" :label="column" :min-width="120" >
               <el-table :data="formValue.recruitment.recruitmentSummary[0][column]" border show-summary >
@@ -234,6 +240,7 @@
           </template>
         </el-table>
       </div>
+       <el-button  type="primary" @click="sheetExportExcel()">保存</el-button>
     </div>
    
   </div>
@@ -245,6 +252,68 @@ import { reactive, ref } from 'vue';
 import { randomizationDetailsColumn,patientVisitScheduleColumn,screenFailureExpectedSummaryColumn,
   dispensingPlanColumn, recruitmentInfoColumn,recruitmentSummaryItemColumn } from './SupplyStrategyAssumptions';
 import type { UploadProps, UploadUserFile } from 'element-plus'
+import * as XLSX from 'xlsx';
+
+const sheetExportExcel = () =>{
+    const sheet1DataInfo:any = {};
+    for(const key of Object.keys(formValue)){
+      console.log(key);
+      if(!['randomizationDetails','patientVisitSchedule','dispensingPlan'].includes(key)){
+        sheet1DataInfo[key]= JSON.stringify(formValue[key]);
+      }
+    }
+    console.log({sheet1DataInfo});
+    let sheet1data = [sheet1DataInfo];
+    var sheet = XLSX.utils.json_to_sheet(sheet1data);//新建一个工作表
+
+      // 假设你有两个DOM元素，每个都包含表格数据
+    const table1 = document.getElementById('data-table1');
+    const table2 = document.getElementById('data-table2');
+    const table3 = document.getElementById('data-table3');
+    // 将第一个表格转换为工作表的一部分
+    const tableOrigin1 = 4;
+    let sheet1 = XLSX.utils.table_to_sheet(table1,{
+      header: 1,
+      skipEmpty: true,
+      origin: `A${tableOrigin1}`
+    });
+
+    // 将第二个表格的数据添加到同一个工作表中
+    // 假设第二个表格后面有多少行，就在第一个表格后面添加多少空行
+    console.log(formValue.randomizationDetails?.length,formValue);
+    const tableOrigin2 = tableOrigin1 + formValue.randomizationDetails?.length + 5;
+    let sheet2 = XLSX.utils.table_to_sheet(table2, {
+      header: 1,
+      skipEmpty: true,
+      origin: `A${tableOrigin2}`
+    });
+    const tableOrigin3 =  tableOrigin2 + formValue.patientVisitSchedule?.flat()?.length + 5;
+    console.log({tableOrigin1,tableOrigin2,tableOrigin3});
+
+    let sheet3 = XLSX.utils.table_to_sheet(table3, {
+      header: 1,
+      skipEmpty: true,
+      origin: `A${tableOrigin3}`
+    });
+    
+
+    // 将空行添加到工作表中，以便第二个表格的数据不会与第一个表格的数据重叠
+    sheet = Object.assign({}, sheet, 3);
+    sheet1 = Object.assign({}, sheet1, formValue.patientVisitSchedule?.length - 1);
+    sheet2 = Object.assign({}, sheet2, formValue.dispensingPlan?.length - 1);
+
+    // 合并两个工作表
+    const mergedSheet = Object.assign({},sheet, sheet1, sheet2,sheet3);
+
+    // 创建工作簿并添加工作表
+    const workbook = XLSX.utils.book_new();
+   
+    XLSX.utils.book_append_sheet(workbook, mergedSheet, 'Sheet1');
+
+    // 生成Excel文件并导出
+    XLSX.writeFile(workbook, 'SupplyStrategyAssumptions.xlsx');
+}
+
 
 const LOOP_NUMS = 10;
 const randomizationDetailsItem = {arm:'',countries:'',randomization:'',pts:''};

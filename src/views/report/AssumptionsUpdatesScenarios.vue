@@ -37,12 +37,13 @@
     </el-form-item>
     </el-form>
 
-    <el-table :data="tableData1" :span-method="objectSpanMethod" border style="width: 100%">
+    <el-table id="data-table1" :data="tableData1" :span-method="objectSpanMethod" border style="width: 100%">
       <el-table-column prop="setups" label="Huasheng projects setups" width="260" />
       <el-table-column prop="linkTabs" label="Link to corresponding tabs"  />
       <el-table-column prop="reevaluation" label="New assumptions since last reevaluation 
         (NA if nothing changed)" width="200"  >
         <template #default="scope">
+          <span style="display: none">{{ scope.row.reevaluation }}</span>
           <el-switch v-model="scope.row.reevaluation" />
         </template>
       </el-table-column>
@@ -51,7 +52,7 @@
     <h3 class="module-title-h3">Please enter in table below the extra scenario(s) that must be investigated in this reevaluation</h3>
     <el-input v-model="form.investigatedReevaluation" type="textarea" placeholder="Please enter in table below the extra scenario(s) that must be investigated in this reevaluation" :autosize="{ minRows: 3, maxRows: 6 }" />
 
-    <el-table :data="tableData2" border style="width: 100%">
+    <el-table id="data-table2" :data="tableData2" border style="width: 100%">
       <template v-for="(item, index) of tableColumn2"  :key="item.prop" >
         <el-table-column v-if="item.prop === 'baseline'" :prop="item.prop" :label="item.prop" width="200" >
           <template #default>
@@ -61,6 +62,7 @@
         </el-table-column>
         <el-table-column v-else :prop="item.prop" :label="item.prop"  >
           <template #default="scope">
+            <span style="display: none">{{ scope.row.scenarioVal[index+1] }}</span>
             <el-input v-model="scope.row.scenarioVal[index+1]" type="textarea" placeholder="Please input" :autosize="{ minRows: 3, maxRows: 6 }" />
           </template>
         </el-table-column>
@@ -68,7 +70,7 @@
     </el-table>
     <h3 class="module-title-h3">The table below needs to be filled in during the assumptions validation meeting together with Huasheng</h3>
     <div class="analysis-result-table" v-for="analysisResult of form.analysisResult" :key="analysisResult">
-      <el-table :data="analysisResult" border >
+      <el-table id="data-table3" :data="analysisResult" border >
         <el-table-column prop="analysisResult" label="Analysis provided in final results" align="center">
           <template v-for="(column,index) of analysisResultColumn" :key="index">
             <el-table-column  :prop="column.prop" :label="column.label"  :min-width="column.width ?? 120" >
@@ -84,6 +86,7 @@
                   </el-tooltip>
                 </template>
                 <template #default="scope">
+                  <span style="display: none">{{ scope.row[column.prop] }}</span>
                   <el-switch v-if="column.type === 'radio'" v-model="scope.row[column.prop]" />
                 </template>
               </el-table-column>
@@ -91,6 +94,8 @@
         </el-table-column>
       </el-table>
     </div>
+
+    <el-button  type="primary" @click="sheetExportExcel()">保存</el-button>
   </div>
 </template>
 <script setup lang="ts">
@@ -99,6 +104,8 @@ import { ElMessage, TableColumnCtx } from 'element-plus';
 import { cloneDeep } from 'lodash';
 import { reactive,ref } from 'vue';
 import { analysisResultColumn } from './AssumptionsUpdatesScenarios';
+import * as XLSX from 'xlsx';
+
 interface SpanMethodProps {
   row: User
   column: TableColumnCtx<User>
@@ -223,6 +230,67 @@ const form = reactive({
   tableData2:tableData2.value,
   analysisResult:[analysisResult.value]
 })
+
+const sheetExportExcel = () =>{
+    const sheet1DataInfo:any = {};
+    for(const key of Object.keys(form)){
+      console.log(key);
+      if(!['tableData1','tableData2','analysisResult'].includes(key)){
+        sheet1DataInfo[key]= JSON.stringify(form[key]);
+      }
+    }
+    console.log({sheet1DataInfo});
+    let sheet1data = [sheet1DataInfo];
+    var sheet = XLSX.utils.json_to_sheet(sheet1data);//新建一个工作表
+
+      // 假设你有两个DOM元素，每个都包含表格数据
+    const table1 = document.getElementById('data-table1');
+    const table2 = document.getElementById('data-table2');
+    const table3 = document.getElementById('data-table3');
+    // 将第一个表格转换为工作表的一部分
+    const tableOrigin1 = 3;
+    let sheet1 = XLSX.utils.table_to_sheet(table1,{
+      header: 1,
+      skipEmpty: true,
+      origin: `A${tableOrigin1}`
+    });
+
+    // 将第二个表格的数据添加到同一个工作表中
+    // 假设第二个表格后面有多少行，就在第一个表格后面添加多少空行
+    // const numEmptyRows = formValue.patientVisitSchedule?.length - 1; // 减去表头; // 减去表头
+    // const emptyRows = Array(numEmptyRows).fill(null).map(() => ({}));
+    
+    const tableOrigin2 = tableOrigin1 + form.tableData1?.length + 5;
+    let sheet2 = XLSX.utils.table_to_sheet(table2, {
+      header: 1,
+      skipEmpty: true,
+      origin: `A${tableOrigin2}`
+    });
+    const tableOrigin3 =  tableOrigin2 + form.tableData2?.length + 5;
+    console.log({tableOrigin2,tableOrigin3});
+
+    let sheet3 = XLSX.utils.table_to_sheet(table3, {
+      header: 1,
+      skipEmpty: true,
+      origin: `A${tableOrigin3}`
+    });
+    
+
+    // 将空行添加到工作表中，以便第二个表格的数据不会与第一个表格的数据重叠
+    sheet = Object.assign({}, sheet, 3);
+    sheet1 = Object.assign({}, sheet1, form.tableData2?.length - 1);
+    sheet2 = Object.assign({}, sheet2, form.analysisResult?.length - 1);
+
+    // 合并两个工作表
+    const mergedSheet = Object.assign({},sheet, sheet1, sheet2,sheet3);
+
+    // 创建工作簿并添加工作表
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, mergedSheet, 'Sheet1');
+
+    // 生成Excel文件并导出
+    XLSX.writeFile(workbook, 'AssumptionsUpdatesScenarios.xlsx');
+}
 
 
 const objectSpanMethod = ({
