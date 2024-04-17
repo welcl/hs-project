@@ -1,16 +1,15 @@
 <template>
   <div class="supply-strategy-assumptions">
-  
     <h1 class="module-title">Study Assumptions </h1>
     <el-form :model="formValue" label-width="auto" style="max-width: 800px">
       <el-form-item label="Randomization level:">
-        <el-select v-model="formValue.studyAssumptions" >
+        <el-select v-model="formValue.studyAssumptions">
           <el-option label="Study" value="Study" />
           <el-option label="Country" value="Country" />
           <el-option label="Site" value="Site" />
         </el-select>
       </el-form-item>
-      
+
       <el-form-item label="Please indicate the enrollment stopping criterion:">
         <el-date-picker
           v-model="formValue.stoppingCriterion"
@@ -20,37 +19,72 @@
         />
       </el-form-item>
       <el-form-item label="Is there a 'hard trial stopping date'?*">
-        <el-radio-group v-model="formValue.stoppingDate"  class="ml-4">
+        <el-radio-group v-model="formValue.stoppingDate" class="ml-4">
           <el-radio :value="true" size="large">Yes</el-radio>
           <el-radio :value="false" size="large">No</el-radio>
         </el-radio-group>
       </el-form-item>
     </el-form>
-    <h3 class="module-title-h3">* A hard trial stopping date means that the trial will end at a specific date, even if patients have not finished their treatment</h3>
-    <div  class="supply-strategy-assumptions-content">
-      <div style="margin-bottom:8px;">
-        <el-button  type="primary" size="small" @click="addRandomization">Add</el-button>
-        <el-button  size="small" @click="deleteRandomization">Delete</el-button>
+    <h3 class="module-title-h3"
+      >* A hard trial stopping date means that the trial will end at a specific
+      date, even if patients have not finished their treatment</h3
+    >
+    <div class="supply-strategy-assumptions-content">
+      <div style="margin-bottom: 8px">
+        <el-button type="primary" size="small" @click="addRandomization"
+          >Add</el-button
+        >
+        <el-button size="small" @click="deleteRandomization">Delete</el-button>
       </div>
-      <el-table id="data-table1"  :data="formValue.randomizationDetails" border show-summary >
-        <el-table-column prop="randomizationDetails" label="Randomization Details : " align="center">
-          <template v-for="(column,index) of randomizationDetailsColumn" :key="index">
-            <el-table-column  :prop="column.prop" :label="column.label" :sortable="column.sortable" :min-width="column.width ?? 120" >
+      <el-table
+        id="data-table1"
+        :data="formValue.randomizationDetails"
+        border
+        show-summary
+      >
+        <el-table-column
+          prop="randomizationDetails"
+          label="Randomization Details : "
+          align="center"
+        >
+          <template
+            v-for="(column, index) of randomizationDetailsColumn"
+            :key="index"
+          >
+            <el-table-column
+              :prop="column.prop"
+              :label="column.label"
+              :sortable="column.sortable"
+              :min-width="column.width ?? 120"
+            >
               <template #header>
                 {{ column.label }}
-                <el-tooltip v-if="column.tips"
+                <el-tooltip
+                  v-if="column.tips"
                   class="box-item"
                   effect="dark"
                   :content="column.tips"
                   placement="top"
                 >
-                <el-icon ><InfoFilled /></el-icon>
+                  <el-icon><InfoFilled /></el-icon>
                 </el-tooltip>
               </template>
               <template #default="scope">
                 <span style="display: none">{{ scope.row[column.prop] }}</span>
-                <el-input v-if="column.type === 'input'" type="text" v-model="scope.row[column.prop]" />
-                <el-input-number v-else-if="column.type === 'number'" type="number" :min="column.min" :max="column.max" :controls="false" :precision="column.precision" v-model="scope.row[column.prop]" />  
+                <el-input
+                  v-if="column.type === 'input'"
+                  type="text"
+                  v-model="scope.row[column.prop]"
+                />
+                <el-input-number
+                  v-else-if="column.type === 'number'"
+                  type="number"
+                  :min="column.min"
+                  :max="column.max"
+                  :controls="false"
+                  :precision="column.precision"
+                  v-model="scope.row[column.prop]"
+                />
               </template>
             </el-table-column>
           </template>
@@ -60,107 +94,222 @@
 
     <h1 class="module-title">Patient Visit Schedule </h1>
     <div class="patient-visit-schedule-content">
-      <template v-for="(item,index) of formValue.patientVisitSchedule" :key="index">
-        <el-table id="data-table2" :data="item" border class="patient-visit-schedule-content-table" >
-          <el-table-column prop="descriptionOfArm" :label="'Description of Arm '+ formValue.randomizationDetails![index]?.arm + ' treatment plan and IMP dispensing plan'" align="center">
-            <template v-for="(column,index) of patientVisitScheduleColumn" :key="index">
-              <el-table-column  :prop="column.prop" :label="column.label"  :min-width="column.width ?? 120" >
+      <template
+        v-for="(item, index) of formValue.patientVisitSchedule"
+        :key="index"
+      >
+        <el-table
+          id="data-table2"
+          :data="item"
+          border
+          class="patient-visit-schedule-content-table"
+        >
+          <el-table-column
+            prop="descriptionOfArm"
+            :label="
+              'Description of Arm ' +
+              formValue.randomizationDetails![index]?.arm +
+              ' treatment plan and IMP dispensing plan'
+            "
+            align="center"
+          >
+            <template
+              v-for="(column, index) of patientVisitScheduleColumn"
+              :key="index"
+            >
+              <el-table-column
+                :prop="column.prop"
+                :label="column.label"
+                :min-width="column.width ?? 120"
+              >
                 <template #header>
                   {{ column.label }}
-                  <el-tooltip v-if="column.tips"
+                  <el-tooltip
+                    v-if="column.tips"
                     class="box-item"
                     effect="dark"
-                  :content="column.tips"
-                  placement="top"
-                >
-                <el-icon ><InfoFilled /></el-icon>
-                </el-tooltip>
-              </template>
-              <template #default="scope">
-                <span style="display: none">{{ scope.row[column.prop] }}</span>
-                <el-input v-if="column.type === 'input'" type="text" v-model="scope.row[column.prop]" />
-                <el-input-number v-else-if="column.type === 'number'" type="number" :min="column.min" :max="column.max" :controls="false" :precision="column.precision" v-model="scope.row[column.prop]" />  
-              </template>
-            </el-table-column>
+                    :content="column.tips"
+                    placement="top"
+                  >
+                    <el-icon><InfoFilled /></el-icon>
+                  </el-tooltip>
+                </template>
+                <template #default="scope">
+                  <span style="display: none">{{
+                    scope.row[column.prop]
+                  }}</span>
+                  <el-input
+                    v-if="column.type === 'input'"
+                    type="text"
+                    v-model="scope.row[column.prop]"
+                  />
+                  <el-input-number
+                    v-else-if="column.type === 'number'"
+                    type="number"
+                    :min="column.min"
+                    :max="column.max"
+                    :controls="false"
+                    :precision="column.precision"
+                    v-model="scope.row[column.prop]"
+                  />
+                </template>
+              </el-table-column>
             </template>
           </el-table-column>
-        </el-table> 
+        </el-table>
       </template>
     </div>
     <div class="screen-failure">
       <h1 class="module-title">Screen failure, drop-out and titrations </h1>
       <h3 class="module-title-h3">Drop-out</h3>
       <div class="screen-failure-item-layout">
-        <div class="desc">Do you want to consider a drop-out rate assumption that is identical or different per treatment arm?</div>
-        <el-radio-group v-model="formValue.screenFailure.dropOutArm"  class="ml-4">
+        <div class="desc"
+          >Do you want to consider a drop-out rate assumption that is identical
+          or different per treatment arm?</div
+        >
+        <el-radio-group
+          v-model="formValue.screenFailure.dropOutArm"
+          class="ml-4"
+        >
           <el-radio :value="true" size="large">Yes</el-radio>
           <el-radio :value="false" size="large">No</el-radio>
         </el-radio-group>
       </div>
       <div class="screen-failure-item-layout">
-        <div class="desc">What is the targeted indication? Please describe into details </div>
-        <el-input type="textarea" v-model="formValue.screenFailure.describeDetails" />
+        <div class="desc"
+          >What is the targeted indication? Please describe into details
+        </div>
+        <el-input
+          type="textarea"
+          v-model="formValue.screenFailure.describeDetails"
+        />
       </div>
-     
-      <el-table  :data="formValue.screenFailure.expectedSummary" border >
-        <template v-for="(column,index) of screenFailureExpectedSummaryColumn" :key="index">
-          <el-table-column  :prop="column.prop" :label="column.label" :min-width="column.width ?? 120" >
+
+      <el-table :data="formValue.screenFailure.expectedSummary" border>
+        <template
+          v-for="(column, index) of screenFailureExpectedSummaryColumn"
+          :key="index"
+        >
+          <el-table-column
+            :prop="column.prop"
+            :label="column.label"
+            :min-width="column.width ?? 120"
+          >
             <template #header>
               {{ column.label }}
-              <el-tooltip v-if="column.tips"
+              <el-tooltip
+                v-if="column.tips"
                 class="box-item"
                 effect="dark"
                 :content="column.tips"
                 placement="top"
               >
-              <el-icon ><InfoFilled /></el-icon>
+                <el-icon><InfoFilled /></el-icon>
               </el-tooltip>
             </template>
             <template #default="scope">
               <span style="display: none">{{ scope.row[column.prop] }}</span>
-              <el-input v-if="column.type === 'input'" type="text" v-model="scope.row[column.prop]" />
-              <el-input-number v-else-if="column.type === 'number'" type="number" :min="column.min" :max="column.max" :controls="false" :precision="column.precision" v-model="scope.row[column.prop]" />  
+              <el-input
+                v-if="column.type === 'input'"
+                type="text"
+                v-model="scope.row[column.prop]"
+              />
+              <el-input-number
+                v-else-if="column.type === 'number'"
+                type="number"
+                :min="column.min"
+                :max="column.max"
+                :controls="false"
+                :precision="column.precision"
+                v-model="scope.row[column.prop]"
+              />
             </template>
           </el-table-column>
         </template>
       </el-table>
 
-       <div v-if="!formValue.screenFailure.dropOutArm" class="screen-failure-item-layout">
-        <div class="desc">Please describe the drop out rate per different treatment arm into details.</div>
-        <el-input type="textarea" v-model="formValue.screenFailure.dropOutCountry" />
+      <div
+        v-if="!formValue.screenFailure.dropOutArm"
+        class="screen-failure-item-layout"
+      >
+        <div class="desc"
+          >Please describe the drop out rate per different treatment arm into
+          details.</div
+        >
+        <el-input
+          type="textarea"
+          v-model="formValue.screenFailure.dropOutCountry"
+        />
       </div>
     </div>
 
     <div class="dispensing-plan">
       <h1 class="module-title">Dispensing Plan</h1>
-      <h3 class="module-title-h3">Note: please complete # of each kit type for each dispensing visit for each treatment arm</h3>
+      <h3 class="module-title-h3"
+        >Note: please complete # of each kit type for each dispensing visit for
+        each treatment arm</h3
+      >
       <div class="dispensing-plan-content">
-        <template v-for="(item,index) of formValue.dispensingPlan" :key="index">
-          <el-table id="data-table3" :data="item" border show-summary  class="dispensing-plan-content-table">
-              <el-table-column prop="armProp" :label="'Arm '+ formValue.randomizationDetails![index]?.arm" align="center">
-                <template v-for="(column,index) of dispensingPlanColumn" :key="index">
-                  <el-table-column  :prop="column.prop" :label="column.label" :min-width="column.width ?? 120" >
-                    <template #header>
-                      {{ column.label }}
-                      <el-tooltip v-if="column.tips"
-                        class="box-item"
-                        effect="dark"
-                        :content="column.tips"
-                        placement="top"
-                      >
-                      <el-icon ><InfoFilled /></el-icon>
-                      </el-tooltip>
-                    </template>
-                    <template #default="scope">
-                      <span style="display: none">{{ scope.row[column.prop] }}</span>
-                      <el-input v-if="column.type === 'input'" type="text" v-model="scope.row[column.prop]" />
-                      <el-input-number v-else-if="column.type === 'number'" type="number" :min="column.min" :max="column.max" :controls="false" :precision="column.precision" v-model="scope.row[column.prop]" />  
-                      <div v-else>{{ scope.row[column.prop] }}</div>
-                    </template>
-                  </el-table-column>
-                </template>
-              </el-table-column>
-          
+        <template
+          v-for="(item, index) of formValue.dispensingPlan"
+          :key="index"
+        >
+          <el-table
+            id="data-table3"
+            :data="item"
+            border
+            show-summary
+            class="dispensing-plan-content-table"
+          >
+            <el-table-column
+              prop="armProp"
+              :label="'Arm ' + formValue.randomizationDetails![index]?.arm"
+              align="center"
+            >
+              <template
+                v-for="(column, index) of dispensingPlanColumn"
+                :key="index"
+              >
+                <el-table-column
+                  :prop="column.prop"
+                  :label="column.label"
+                  :min-width="column.width ?? 120"
+                >
+                  <template #header>
+                    {{ column.label }}
+                    <el-tooltip
+                      v-if="column.tips"
+                      class="box-item"
+                      effect="dark"
+                      :content="column.tips"
+                      placement="top"
+                    >
+                      <el-icon><InfoFilled /></el-icon>
+                    </el-tooltip>
+                  </template>
+                  <template #default="scope">
+                    <span style="display: none">{{
+                      scope.row[column.prop]
+                    }}</span>
+                    <el-input
+                      v-if="column.type === 'input'"
+                      type="text"
+                      v-model="scope.row[column.prop]"
+                    />
+                    <el-input-number
+                      v-else-if="column.type === 'number'"
+                      type="number"
+                      :min="column.min"
+                      :max="column.max"
+                      :controls="false"
+                      :precision="column.precision"
+                      v-model="scope.row[column.prop]"
+                    />
+                    <div v-else>{{ scope.row[column.prop] }}</div>
+                  </template>
+                </el-table-column>
+              </template>
+            </el-table-column>
           </el-table>
         </template>
       </div>
@@ -168,9 +317,13 @@
 
     <div class="Recruitment">
       <h1 class="module-title">Recruitment</h1>
-      <h3 class="module-title-h3">Note: the data to be enterred is NOT accumulated data by each month, it should be the projected recruitment or site initiation data on a monthly basis.</h3>
+      <h3 class="module-title-h3"
+        >Note: the data to be enterred is NOT accumulated data by each month, it
+        should be the projected recruitment or site initiation data on a monthly
+        basis.</h3
+      >
       <div class="recruitment-info-table">
-        <div style="margin-bottom:8px;">
+        <div style="margin-bottom: 8px">
           <el-upload
             v-model:file-list="fileList"
             class="upload-demo"
@@ -185,34 +338,70 @@
             <el-button type="primary">Import</el-button>
             <template #tip>
               <div class="el-upload__tip">
-                Please download the recruitment projection template and complete the recruitment forecast and afterwards upload the file
+                Please download the recruitment projection template and complete
+                the recruitment forecast and afterwards upload the file
               </div>
             </template>
           </el-upload>
-          <el-button  type="primary" size="small" @click="addRecruitmentInfo">Add</el-button>
-          <el-button  size="small" @click="deleteRecruitmentInfo">Delete</el-button>
-          <el-button  size="small" @click="createRecruitmentSummary">Create Table</el-button>
-          
+          <el-button type="primary" size="small" @click="addRecruitmentInfo"
+            >Add</el-button
+          >
+          <el-button size="small" @click="deleteRecruitmentInfo"
+            >Delete</el-button
+          >
+          <el-button size="small" @click="createRecruitmentSummary"
+            >Create Table</el-button
+          >
         </div>
-        <el-table  id="data-table4" :data="formValue.recruitment.recruitmentInfo" border show-summary >
-          <template v-for="(column,index) of recruitmentInfoColumn" :key="index">
-            <el-table-column  :prop="column.prop" :label="column.label" :min-width="column.width ?? 120" >
+        <el-table
+          id="data-table4"
+          :data="formValue.recruitment.recruitmentInfo"
+          border
+          show-summary
+        >
+          <template
+            v-for="(column, index) of recruitmentInfoColumn"
+            :key="index"
+          >
+            <el-table-column
+              :prop="column.prop"
+              :label="column.label"
+              :min-width="column.width ?? 120"
+            >
               <template #header>
                 {{ column.label }}
-                <el-tooltip v-if="column.tips"
+                <el-tooltip
+                  v-if="column.tips"
                   class="box-item"
                   effect="dark"
                   :content="column.tips"
                   placement="top"
                 >
-                <el-icon ><InfoFilled /></el-icon>
+                  <el-icon><InfoFilled /></el-icon>
                 </el-tooltip>
               </template>
               <template #default="scope">
                 <span style="display: none">{{ scope.row[column.prop] }}</span>
-                <el-input v-if="column.type === 'input'" type="text" v-model="scope.row[column.prop]" />
-                <el-input v-if="column.type === 'textarea'" type="textarea" v-model="scope.row[column.prop]" :autosize="{ minRows: 1, maxRows: 3 }" />
-                <el-input-number v-else-if="column.type === 'number'" type="number" :min="column.min" :max="column.max" :controls="false" :precision="column.precision" v-model="scope.row[column.prop]" />
+                <el-input
+                  v-if="column.type === 'input'"
+                  type="text"
+                  v-model="scope.row[column.prop]"
+                />
+                <el-input
+                  v-if="column.type === 'textarea'"
+                  type="textarea"
+                  v-model="scope.row[column.prop]"
+                  :autosize="{ minRows: 1, maxRows: 3 }"
+                />
+                <el-input-number
+                  v-else-if="column.type === 'number'"
+                  type="number"
+                  :min="column.min"
+                  :max="column.max"
+                  :controls="false"
+                  :precision="column.precision"
+                  v-model="scope.row[column.prop]"
+                />
                 <el-date-picker
                   v-else-if="column.type === 'dateRange'"
                   v-model="scope.row[column.prop]"
@@ -226,13 +415,34 @@
         </el-table>
       </div>
 
-      <div v-if="formValue.recruitment.recruitmentSummary?.length" class="recruitment-summary-table">
-        <el-table id="data-table5" :data="formValue.recruitment.recruitmentSummary" border>
-          <template v-for="(column,index) of recruitmentSummaryColumn" :key="index">
-            <el-table-column  :prop="column" :label="column" :min-width="120" >
-              <el-table :data="formValue.recruitment.recruitmentSummary[0][column]" border show-summary >
-                <template v-for="(column,idx) of recruitmentSummaryItemColumn" :key="idx">
-                  <el-table-column  :prop="column.prop" :label="column.label" :min-width="120" >
+      <div
+        v-if="formValue.recruitment.recruitmentSummary?.length"
+        class="recruitment-summary-table"
+      >
+        <el-table
+          id="data-table5"
+          :data="formValue.recruitment.recruitmentSummary"
+          border
+        >
+          <template
+            v-for="(column, index) of recruitmentSummaryColumn"
+            :key="index"
+          >
+            <el-table-column :prop="column" :label="column" :min-width="120">
+              <el-table
+                :data="formValue.recruitment.recruitmentSummary[0][column]"
+                border
+                show-summary
+              >
+                <template
+                  v-for="(column, idx) of recruitmentSummaryItemColumn"
+                  :key="idx"
+                >
+                  <el-table-column
+                    :prop="column.prop"
+                    :label="column.label"
+                    :min-width="120"
+                  >
                   </el-table-column>
                 </template>
               </el-table>
@@ -240,150 +450,188 @@
           </template>
         </el-table>
       </div>
-       <el-button  type="primary" @click="sheetExportExcel()">保存</el-button>
+      <el-button type="primary" @click="sheetExportExcel()">保存</el-button>
     </div>
-   
   </div>
 </template>
 <script setup lang="ts">
 import { dayjs, ElMessage, ElMessageBox } from 'element-plus';
-import {  cloneDeep,groupBy } from 'lodash-es';
+import { cloneDeep, groupBy } from 'lodash-es';
 import { reactive, ref } from 'vue';
-import { randomizationDetailsColumn,patientVisitScheduleColumn,screenFailureExpectedSummaryColumn,
-  dispensingPlanColumn, recruitmentInfoColumn,recruitmentSummaryItemColumn } from './SupplyStrategyAssumptions';
-import type { UploadProps, UploadUserFile } from 'element-plus'
+import {
+  randomizationDetailsColumn,
+  patientVisitScheduleColumn,
+  screenFailureExpectedSummaryColumn,
+  dispensingPlanColumn,
+  recruitmentInfoColumn,
+  recruitmentSummaryItemColumn
+} from './SupplyStrategyAssumptions';
+import type { UploadProps, UploadUserFile } from 'element-plus';
 import * as XLSX from 'xlsx';
 
-const sheetExportExcel = () =>{
-    const sheet1DataInfo:any = {};
-    for(const key of Object.keys(formValue)){
-      console.log(key);
-      if(!['randomizationDetails','patientVisitSchedule','dispensingPlan'].includes(key)){
-        sheet1DataInfo[key]= JSON.stringify(formValue[key]);
-      }
+const sheetExportExcel = () => {
+  const sheet1DataInfo: any = {};
+  for (const key of Object.keys(formValue)) {
+    console.log(key);
+    if (
+      ![
+        'randomizationDetails',
+        'patientVisitSchedule',
+        'dispensingPlan'
+      ].includes(key)
+    ) {
+      sheet1DataInfo[key] = JSON.stringify(formValue[key]);
     }
-    console.log({sheet1DataInfo});
-    let sheet1data = [sheet1DataInfo];
-    var sheet = XLSX.utils.json_to_sheet(sheet1data);//新建一个工作表
+  }
+  console.log({ sheet1DataInfo });
+  let sheet1data = [sheet1DataInfo];
+  var sheet = XLSX.utils.json_to_sheet(sheet1data); //新建一个工作表
 
-      // 假设你有两个DOM元素，每个都包含表格数据
-    const table1 = document.getElementById('data-table1');
-    const table2 = document.getElementById('data-table2');
-    const table3 = document.getElementById('data-table3');
-    // 将第一个表格转换为工作表的一部分
-    const tableOrigin1 = 4;
-    let sheet1 = XLSX.utils.table_to_sheet(table1,{
-      header: 1,
-      skipEmpty: true,
-      origin: `A${tableOrigin1}`
-    });
+  // 假设你有两个DOM元素，每个都包含表格数据
+  const table1 = document.getElementById('data-table1');
+  const table2 = document.getElementById('data-table2');
+  const table3 = document.getElementById('data-table3');
+  // 将第一个表格转换为工作表的一部分
+  const tableOrigin1 = 4;
+  let sheet1 = XLSX.utils.table_to_sheet(table1, {
+    header: 1,
+    skipEmpty: true,
+    origin: `A${tableOrigin1}`
+  });
 
-    // 将第二个表格的数据添加到同一个工作表中
-    // 假设第二个表格后面有多少行，就在第一个表格后面添加多少空行
-    console.log(formValue.randomizationDetails?.length,formValue);
-    const tableOrigin2 = tableOrigin1 + formValue.randomizationDetails?.length + 5;
-    let sheet2 = XLSX.utils.table_to_sheet(table2, {
-      header: 1,
-      skipEmpty: true,
-      origin: `A${tableOrigin2}`
-    });
-    const tableOrigin3 =  tableOrigin2 + formValue.patientVisitSchedule?.flat()?.length + 5;
-    console.log({tableOrigin1,tableOrigin2,tableOrigin3});
+  // 将第二个表格的数据添加到同一个工作表中
+  // 假设第二个表格后面有多少行，就在第一个表格后面添加多少空行
+  console.log(formValue.randomizationDetails?.length, formValue);
+  const tableOrigin2 =
+    tableOrigin1 + formValue.randomizationDetails?.length + 5;
+  let sheet2 = XLSX.utils.table_to_sheet(table2, {
+    header: 1,
+    skipEmpty: true,
+    origin: `A${tableOrigin2}`
+  });
+  const tableOrigin3 =
+    tableOrigin2 + formValue.patientVisitSchedule?.flat()?.length + 5;
+  console.log({ tableOrigin1, tableOrigin2, tableOrigin3 });
 
-    let sheet3 = XLSX.utils.table_to_sheet(table3, {
-      header: 1,
-      skipEmpty: true,
-      origin: `A${tableOrigin3}`
-    });
-    
+  let sheet3 = XLSX.utils.table_to_sheet(table3, {
+    header: 1,
+    skipEmpty: true,
+    origin: `A${tableOrigin3}`
+  });
 
-    // 将空行添加到工作表中，以便第二个表格的数据不会与第一个表格的数据重叠
-    sheet = Object.assign({}, sheet, 3);
-    sheet1 = Object.assign({}, sheet1, formValue.patientVisitSchedule?.length - 1);
-    sheet2 = Object.assign({}, sheet2, formValue.dispensingPlan?.length - 1);
+  // 将空行添加到工作表中，以便第二个表格的数据不会与第一个表格的数据重叠
+  sheet = Object.assign({}, sheet, 3);
+  sheet1 = Object.assign(
+    {},
+    sheet1,
+    formValue.patientVisitSchedule?.length - 1
+  );
+  sheet2 = Object.assign({}, sheet2, formValue.dispensingPlan?.length - 1);
 
-    // 合并两个工作表
-    const mergedSheet = Object.assign({},sheet, sheet1, sheet2,sheet3);
+  // 合并两个工作表
+  const mergedSheet = Object.assign({}, sheet, sheet1, sheet2, sheet3);
 
-    // 创建工作簿并添加工作表
-    const workbook = XLSX.utils.book_new();
-   
-    XLSX.utils.book_append_sheet(workbook, mergedSheet, 'Sheet1');
+  // 创建工作簿并添加工作表
+  const workbook = XLSX.utils.book_new();
 
-    // 生成Excel文件并导出
-    XLSX.writeFile(workbook, 'SupplyStrategyAssumptions.xlsx');
-}
+  XLSX.utils.book_append_sheet(workbook, mergedSheet, 'Sheet1');
 
+  // 生成Excel文件并导出
+  XLSX.writeFile(workbook, 'SupplyStrategyAssumptions.xlsx');
+};
 
 const LOOP_NUMS = 10;
-const randomizationDetailsItem = {arm:'',countries:'',randomization:'',pts:''};
-const patientVisitScheduleItem = {treatmentVisit:'',studyWeek:'',timeToVisit:'',drugA:'',drugB:'',drugC:'',drugD:''}
-const patientVisitScheduleItemArray:any = [];
-for(let i = 0; i < LOOP_NUMS; i++){
+const randomizationDetailsItem = {
+  arm: '',
+  countries: '',
+  randomization: '',
+  pts: ''
+};
+const patientVisitScheduleItem = {
+  treatmentVisit: '',
+  studyWeek: '',
+  timeToVisit: '',
+  drugA: '',
+  drugB: '',
+  drugC: '',
+  drugD: ''
+};
+const patientVisitScheduleItemArray: any = [];
+for (let i = 0; i < LOOP_NUMS; i++) {
   patientVisitScheduleItemArray.push(cloneDeep(patientVisitScheduleItem));
 }
-const dispensingPlanItem = {cycle:'',drugA:'',drugB:'',drugC:'',drugD:''}
-const dispensingPlanItemArray :any = [];
-for(let i = 0; i < LOOP_NUMS; i++){
+const dispensingPlanItem = {
+  cycle: '',
+  drugA: '',
+  drugB: '',
+  drugC: '',
+  drugD: ''
+};
+const dispensingPlanItemArray: any = [];
+for (let i = 0; i < LOOP_NUMS; i++) {
   const itemVal = cloneDeep(dispensingPlanItem);
-  itemVal.cycle = 'Cycle'+ (i+1)
+  itemVal.cycle = 'Cycle' + (i + 1);
   dispensingPlanItemArray.push(itemVal);
 }
-const recruitmentInfoItem = {country:'',subjectQty: '',siteQty:'',dateTime:[null,null]}
+const recruitmentInfoItem = {
+  country: '',
+  subjectQty: '',
+  siteQty: '',
+  dateTime: [null, null]
+};
 const formValue = reactive({
-  studyAssumptions:'',
+  studyAssumptions: '',
   stoppingCriterion: '',
   stoppingDate: false,
-  randomizationDetails:[cloneDeep(randomizationDetailsItem)],
-  patientVisitSchedule:[patientVisitScheduleItemArray],
-  screenFailure:{
+  randomizationDetails: [cloneDeep(randomizationDetailsItem)],
+  patientVisitSchedule: [patientVisitScheduleItemArray],
+  screenFailure: {
     dropOutArm: false,
-    describeDetails:'',
-    dropOutCountry:'',
-    expectedSummary:[{
-      expectedMax:'',
-      expectedAverage:'',
-      expectedStudy:''
-    }]
+    describeDetails: '',
+    dropOutCountry: '',
+    expectedSummary: [
+      {
+        expectedMax: '',
+        expectedAverage: '',
+        expectedStudy: ''
+      }
+    ]
   },
-  dispensingPlan:[dispensingPlanItemArray],
-  recruitment:{
-    recruitmentInfo:[cloneDeep(recruitmentInfoItem)],
-    recruitmentSummary:[]
+  dispensingPlan: [dispensingPlanItemArray],
+  recruitment: {
+    recruitmentInfo: [cloneDeep(recruitmentInfoItem)],
+    recruitmentSummary: []
   }
-})
-
-
-
+});
 
 const MAX_NUMS = 10;
 const MIN_NUMS = 1;
 
-const addRandomization = async ()=>{
-  if(formValue?.randomizationDetails?.length >= MAX_NUMS){
+const addRandomization = async () => {
+  if (formValue?.randomizationDetails?.length >= MAX_NUMS) {
     return ElMessage.warning(`Add up to${MAX_NUMS}`);
-  } 
-  formValue.randomizationDetails.push(cloneDeep(randomizationDetailsItem))
+  }
+  formValue.randomizationDetails.push(cloneDeep(randomizationDetailsItem));
   formValue.patientVisitSchedule.push(cloneDeep(patientVisitScheduleItemArray));
   formValue.dispensingPlan.push(cloneDeep(dispensingPlanItemArray));
-}
+};
 
 const fileList = ref<UploadUserFile[]>([]);
-  const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
-  console.log(file, uploadFiles)
-}
+const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
+  console.log(file, uploadFiles);
+};
 
 const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
-  console.log(uploadFile)
-}
+  console.log(uploadFile);
+};
 
 const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
   ElMessage.warning(
     `The limit is 1, you selected ${files.length} files this time, add up to ${
       files.length + uploadFiles.length
     } totally`
-  )
-}
+  );
+};
 
 const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
   return ElMessageBox.confirm(
@@ -391,88 +639,87 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
   ).then(
     () => true,
     () => false
-  )
-}
+  );
+};
 
-const importRecruitmentInfo = async ()=>{
-  if(formValue?.recruitment.recruitmentInfo?.length >= MAX_NUMS){
+const importRecruitmentInfo = async () => {
+  if (formValue?.recruitment.recruitmentInfo?.length >= MAX_NUMS) {
     return ElMessage.warning(`Add up to ${MAX_NUMS} `);
-  } 
+  }
   formValue.recruitment.recruitmentInfo.push(cloneDeep(recruitmentInfoItem));
-}
+};
 
-
-const deleteRandomization = async ()=>{
-  if(formValue?.randomizationDetails?.length <= MIN_NUMS){
+const deleteRandomization = async () => {
+  if (formValue?.randomizationDetails?.length <= MIN_NUMS) {
     return ElMessage.warning(`At least ${MIN_NUMS} exists`);
-  } 
+  }
   formValue.randomizationDetails.pop();
   formValue.patientVisitSchedule.pop();
   formValue.dispensingPlan.pop();
-}
+};
 
-
-const addRecruitmentInfo = async ()=>{
-  if(formValue?.recruitment.recruitmentInfo?.length >= MAX_NUMS){
+const addRecruitmentInfo = async () => {
+  if (formValue?.recruitment.recruitmentInfo?.length >= MAX_NUMS) {
     return ElMessage.warning(`Add up to ${MAX_NUMS} `);
-  } 
+  }
   formValue.recruitment.recruitmentInfo.push(cloneDeep(recruitmentInfoItem));
-}
+};
 
-const deleteRecruitmentInfo = async ()=>{
-  if(formValue?.recruitment?.recruitmentInfo?.length <= MIN_NUMS){
+const deleteRecruitmentInfo = async () => {
+  if (formValue?.recruitment?.recruitmentInfo?.length <= MIN_NUMS) {
     return ElMessage.warning(`At least ${MIN_NUMS} exists`);
-  } 
+  }
   formValue.recruitment.recruitmentInfo.pop();
-}
+};
 const recruitmentSummaryColumn = ref<string[]>([]);
 
-const createRecruitmentSummary = async ()=>{
+const createRecruitmentSummary = async () => {
   recruitmentSummaryColumn.value = [];
   const recruitmentInfo = formValue.recruitment.recruitmentInfo;
-  if(recruitmentInfo?.every(item => !item.dateTime[0])){
+  if (recruitmentInfo?.every((item) => !item.dateTime[0])) {
     return ElMessage.error('请至少选择一个时间区间');
   }
-  recruitmentInfo?.forEach(item => item.dateTime[0] = dayjs(item.dateTime[0]).format('YYYY-MM-DD'));
-  const gropItem:any = groupBy(recruitmentInfo,(item)=>item?.dateTime![0])
+  recruitmentInfo?.forEach(
+    (item) => (item.dateTime[0] = dayjs(item.dateTime[0]).format('YYYY-MM-DD'))
+  );
+  const gropItem: any = groupBy(recruitmentInfo, (item) => item?.dateTime![0]);
   formValue.recruitment.recruitmentSummary = [gropItem];
-  const startTimeGroup = groupBy(recruitmentInfo,(item)=>item?.dateTime![0]);
-  for(const key of Object.keys(startTimeGroup)){
-    console.log({key},startTimeGroup[key]);
+  const startTimeGroup = groupBy(recruitmentInfo, (item) => item?.dateTime![0]);
+  for (const key of Object.keys(startTimeGroup)) {
+    console.log({ key }, startTimeGroup[key]);
     recruitmentSummaryColumn.value.push(dayjs(key).format('YYYY-MM-DD'));
   }
- 
-}
+};
 </script>
 <style lang="scss" scoped>
-.supply-strategy-assumptions{
-  color:#242933;
-  .module-title{
+.supply-strategy-assumptions {
+  color: #242933;
+  .module-title {
     text-align: center;
-    padding:16px;
+    padding: 16px;
     font-size: 24px;
     background: #f88b0891;
-    color:#fff;
+    color: #fff;
   }
-  .module-title-h3{
+  .module-title-h3 {
     text-align: center;
-    padding:8px;
+    padding: 8px;
     font-size: 16px;
   }
-  .patient-visit-schedule-content-table:not(:last-child){
+  .patient-visit-schedule-content-table:not(:last-child) {
     margin-bottom: 16px;
   }
-  .dispensing-plan-content-table:not(:last-child){
+  .dispensing-plan-content-table:not(:last-child) {
     margin-bottom: 16px;
   }
-  .screen-failure-item-layout{
+  .screen-failure-item-layout {
     display: flex;
-    .desc{
+    .desc {
       flex: 0 0 400px;
       padding: 12px;
     }
   }
-  .recruitment-summary-table{
+  .recruitment-summary-table {
     margin-top: 24px;
   }
 }

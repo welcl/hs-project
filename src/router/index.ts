@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,9 +21,8 @@ const router = createRouter({
       path: '/report/supply-strategy-assumptions',
       name: 'SupplyStrategyAssumption',
       component: () => import('../views/report/SupplyStrategyAssumptions.vue')
-    },
-    
+    }
   ]
-})
+});
 
-export default router
+export default router;

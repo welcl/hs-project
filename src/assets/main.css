@@ -2,9 +2,9 @@
 
 #app {
   width: 100vw;
-  height:100vh;
+  height: 100vh;
   font-weight: normal;
-  padding:12px;
+  padding: 12px;
   background: #fff;
 }
 
@@ -27,5 +27,4 @@ a,
     display: flex;
     place-items: center;
   }
-
 }

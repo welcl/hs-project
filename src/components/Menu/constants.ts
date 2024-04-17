@@ -1,8 +1,8 @@
-import { MenuType } from "./types";
+import { MenuType } from './types';
 
-export const  MenuList: MenuType[] = [
+export const MenuList: MenuType[] = [
   {
-    title:'report',
+    title: 'report',
     key: '1',
     children: [
       {

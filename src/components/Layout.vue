@@ -1,5 +1,5 @@
 <template>
-   <div class="common-layout">
+  <div class="common-layout">
     <el-container>
       <el-aside width="245px">
         <Meun />
@@ -18,7 +18,7 @@ import Meun from '@/components/Menu/index.vue';
 import { RouterView } from 'vue-router';
 </script>
 <style lang="scss" scoped>
-.common-layout .el-container{
+.common-layout .el-container {
   width: 100vw;
   height: 100vh;
 }

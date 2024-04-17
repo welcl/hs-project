@@ -5,22 +5,18 @@
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
-    "allowImportingTsExtensions": true,
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
-      "openapi/*": ["openapi/*"]
+      "@/*": ["src/*"]
     },
     "experimentalDecorators": true,
     "lib": ["esnext", "dom"],
     "types": [
-      "vite-svg-loader",
       "vite/client",
-      "element-plus/global",
-      "vite-plugin-svg-icons/client"
+      "element-plus/global"
     ]
   },
   "include": [
