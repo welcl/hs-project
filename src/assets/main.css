@@ -4,8 +4,9 @@
   width: 100vw;
   height: 100vh;
   font-weight: normal;
-  padding: 12px;
+  padding: 0px;
   background: #fff;
+  box-sizing: border-box;
 }
 
 a,
