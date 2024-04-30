@@ -62,6 +62,7 @@ import {
   ElMessage,
 } from 'element-plus';
 import { useRouter } from 'vue-router';
+import { authInfo, LoginValid } from '@/utils/auth';
 
 // import { useLoginStore } from '@/stores/login';
 // import api from '@/utils/api';
@@ -115,33 +116,20 @@ const submitForm = (formEl: FormInstance | undefined) => {
         //显示加载动画
         const loading = ElLoading.service({
             lock: true,
-            text: '正在登陆',
+            text: 'Loging...',
             background: 'rgba(0, 0, 0, 0.7)',
         });
-        //请求接口，进行登陆
-        loading.close();
-        // api.post('/api/login', loginForm).then((response: AxiosResponse<any>) => {
-        //     if (response.status != 200 || !response.data || response.data.code != 200) {
-        //         if (response.data) {
-        //             ElMessage.error('登陆失败:' + response.data.msg)
-        //         } else {
-        //             ElMessage.error('登陆失败!')
-        //         }
-        //         return;
-        //     }
-        //     let token = response.headers.authorization;
-        //     //存储token，后续使用
-        //     loginStore.authorization = token;
-        //     router.push('/index');
-        // }).catch((error: AxiosError<any>) => {
-        //     if (error.response && error.response.data) {
-        //         ElMessage.error(error.response.data.msg)
-        //         return;
-        //     }
-        //     ElMessage.error('操作异常：' + error.message)
-        // }).finally(() => {
-        //     loading.close();
-        // });
+        setTimeout(()=>{
+            if(loginForm.account === authInfo.account && loginForm.password === authInfo.password){
+                localStorage.setItem('hs-account', JSON.stringify(loginForm.account));
+                localStorage.setItem('hs-password', JSON.stringify(loginForm.password));
+                router.push('/report/assumptions-updates-scenarios');
+            }else{
+                ElMessage.error('Incorrect Account Or Password')
+            }
+            loading.close();
+        },2000)
+       
     })
 }
 // 验证码路径

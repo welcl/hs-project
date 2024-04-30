@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Layout from '@/components/Layout.vue';
-
+import {  LoginValid } from '@/utils/auth';
+// 不重定向白名单
+const whiteList = ['/login'];
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -38,5 +40,17 @@ const router = createRouter({
    
   ]
 });
+router.beforeEach((to, from, next) => {
+  console.log({to,from,next});
+  if(LoginValid()){
+    next();
+  }
+  if (whiteList.includes(to.path)) {
+    next();
+  } else {
+    next('/login');
+  }
+ 
+})
 
 export default router;
