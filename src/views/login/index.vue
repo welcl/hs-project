@@ -90,6 +90,7 @@ const loginForm = reactive({
 const rules = reactive<FormRules<typeof loginForm>>({
     account: [{ required: true, message: 'Please Enter Account', trigger: 'blur' }],
     password: [{
+        required: true,
         validator: (rule: any, value: any, callback: any) => {
             if (value === '') {
                 callback(new Error('Password Not Empty'))
