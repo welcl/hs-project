@@ -121,7 +121,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
             background: 'rgba(0, 0, 0, 0.7)',
         });
         setTimeout(()=>{
-            if(loginForm.account === authInfo.account && loginForm.password === authInfo.password){
+            if( authInfo.account.includes(loginForm.account) &&  authInfo.password.includes(loginForm.password)){
                 localStorage.setItem('hs-account', JSON.stringify(loginForm.account));
                 localStorage.setItem('hs-password', JSON.stringify(loginForm.password));
                 router.push('/report/assumptions-updates-scenarios');

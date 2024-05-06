@@ -1,8 +1,9 @@
 // mock登录账号密码
 export const authInfo ={
-  account: 'qianduan',
-  password:'Hszy123!@#'
+  account: ['hsc505','hsc506','hsc507','hsc508','hsc509'],
+  password:['Hszy123!@#']
 }
+
 
 // 获取token localstorage
 export function getUseLocalToken(name: string): string {
@@ -37,8 +38,8 @@ export function getPassword(): string {
 export function LoginValid():boolean {
   const account: string = getAccount();
   const password: string = getPassword();
-  const accountMatch = account === authInfo.account;
-  const passwordMatch = password === authInfo.password;
+  const accountMatch = authInfo.account?.includes(account);
+  const passwordMatch = authInfo.password?.includes(password);
   console.log({account,password,accountMatch,passwordMatch});
   return account && password && accountMatch && passwordMatch
 }
